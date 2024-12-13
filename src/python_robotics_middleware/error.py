@@ -12,3 +12,24 @@ def compute_error(goal_tf, end_effector_tf):
 
     return pos_error, rot_error
 
+def are_tuples_close(tuple1, tuple2, tolerance=1e-3):
+    """
+    Compare two tuples (including nested ones) element-wise within a given tolerance.
+
+    Args:
+        tuple1: First tuple of values (can be nested).
+        tuple2: Second tuple of values (can be nested).
+        tolerance: Maximum allowed difference for each element.
+
+    Returns:
+        True if all elements are within the tolerance, False otherwise.
+    """
+    if type(tuple1) != type(tuple2):
+        return False
+
+    if isinstance(tuple1, (tuple, list)) and isinstance(tuple2, (tuple, list)):
+        if len(tuple1) != len(tuple2):
+            return False
+        return all(are_tuples_close(a, b, tolerance) for a, b in zip(tuple1, tuple2))
+
+    return abs(tuple1 - tuple2) <= tolerance

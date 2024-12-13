@@ -3,29 +3,9 @@ import pybullet_data
 import time
 import numpy as np
 import os 
-from python_robotics_middleware import Obstacle, Sphere, Cube
+from python_robotics_middleware import Obstacle, Sphere, Cube, are_tuples_close
 
-def are_tuples_close(tuple1, tuple2, tolerance=1e-3):
-    """
-    Compare two tuples (including nested ones) element-wise within a given tolerance.
 
-    Args:
-        tuple1: First tuple of values (can be nested).
-        tuple2: Second tuple of values (can be nested).
-        tolerance: Maximum allowed difference for each element.
-
-    Returns:
-        True if all elements are within the tolerance, False otherwise.
-    """
-    if type(tuple1) != type(tuple2):
-        return False
-
-    if isinstance(tuple1, (tuple, list)) and isinstance(tuple2, (tuple, list)):
-        if len(tuple1) != len(tuple2):
-            return False
-        return all(are_tuples_close(a, b, tolerance) for a, b in zip(tuple1, tuple2))
-
-    return abs(tuple1 - tuple2) <= tolerance
 
 def visualize_collision_with_sphere(data, urdf, visualize=True, delay=True):
     """
@@ -274,7 +254,7 @@ if __name__ == "__main__":
 
     # Create a list of cinder blocks with different z positions
     cinder_blocks = []
-    z_positions = [0.75 + i * 0.5 for i in range(5)]  # Increment z by 0.5 for each block
+    z_positions = [0.75 + i * 1.5 for i in range(5)]  # Increment z by 0.5 for each block
 
     for z in z_positions:
         obstacle = Obstacle(
