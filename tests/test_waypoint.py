@@ -39,7 +39,13 @@ def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False)
 
         # Load robot model
         robot_id = p.loadURDF(urdf, basePosition=[0, 0, 0], useFixedBase=True)
+        num_joints = p.getNumJoints(robot_id)
+        # Use the last linka as the end effector that needs to contact the waypoint 
+        end_effector_link_index = num_joints-1
 
+        if end_effector_link_index is None:
+            raise ValueError("End effector not found in the robot's URDF.")
+        
         # Generate and load waypoints
         waypoint_ids = [waypoint.generate_pybullet_waypoint() for waypoint in waypoints]
 
@@ -49,12 +55,15 @@ def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False)
 
             # Check for collisions between waypoints and the robot
             for i, waypoint_id in enumerate(waypoint_ids):
-                contact_points = p.getContactPoints(bodyA=robot_id, bodyB=waypoint_id)
+                contact_points = p.getContactPoints(
+                        bodyA=robot_id,
+                        linkIndexA=end_effector_link_index,
+                        bodyB=waypoint_id
+                    )
                 if contact_points:
                     print(f"contact met at waypoint {waypoints[i].name}")
                     waypoints[i].met = True
                     p.removeBody(waypoint_id)  # Remove the waypoint from the simulation
-                    # waypoint_ids[i] = None
                         
             if all(waypoint.met for waypoint in waypoints):
                 break
