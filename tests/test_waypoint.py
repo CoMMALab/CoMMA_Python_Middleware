@@ -8,7 +8,7 @@ from python_robotics_middleware import Waypoint, are_tuples_close
 
 def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False):
     """
-    Visualize pre-computed joint configurations in PyBullet with waypoints.
+    Visualize pre-computed joint configurations in PyBullet with waypoints. 
 
     Args:
         data: List of dictionaries containing pre-computed joint angles for robot poses.
