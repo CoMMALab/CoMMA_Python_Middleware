@@ -261,7 +261,7 @@ if __name__ == "__main__":
             model_path=full_path,
             name="cinder_block",
             color=None,
-            search_path="test_sdfs/cinder_block",
+            search_path="example_sdfs/cinder_block",
             position=[x, y, z],
             mass=1,
             pose=[0, 0, 0, 1]

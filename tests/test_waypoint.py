@@ -4,9 +4,8 @@ import pybullet_data
 import time
 import numpy as np
 import os 
-from python_robotics_middleware import Waypoint, are_tuples_close
-
-def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False):
+from python_robotics_middleware import Waypoint
+def visualize_with_waypoints(data, urdf, waypoints, visualize=True):
     """
     Visualize pre-computed joint configurations in PyBullet with waypoints. 
 
@@ -53,6 +52,7 @@ def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False)
         while True:
             p.stepSimulation()
 
+            # TODO: potentially rewrite with collision checking using GPU 
             # Check for collisions between waypoints and the robot
             for i, waypoint_id in enumerate(waypoint_ids):
                 contact_points = p.getContactPoints(
@@ -68,8 +68,7 @@ def visualize_with_waypoints(data, urdf, waypoints, visualize=True, delay=False)
             if all(waypoint.met for waypoint in waypoints):
                 break
 
-            if delay:
-                time.sleep(0.01)
+
 
 if __name__ == "__main__":
     search_path = pybullet_data.getDataPath()

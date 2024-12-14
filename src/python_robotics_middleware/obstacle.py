@@ -1,4 +1,6 @@
 import pybullet as p
+import os 
+import xml.etree.ElementTree as ET
 
 class Obstacle:
     def __init__(self, model_path, name, color, search_path, position=[0, 0, 0], mass=0, pose=None):
@@ -11,9 +13,34 @@ class Obstacle:
         self.color = color            # Color of the obstacle
         self.search_path = search_path
         self.pose = pose if pose else ([self.x, self.y, self.z], p.getQuaternionFromEuler([0, 0, 0]))  # Default to no rotation
+        self.mass = mass if mass is not None else self._get_mass_from_sdf()
 
     def __repr__(self):
         return f"Obstacle(name={self.name}, position=({self.x}, {self.y}, {self.z}), mass={self.mass}, model_path={self.model_path}, color={self.color}, pose={self.pose})"
+
+    
+    def _get_mass_from_sdf(self):
+        """
+        Extract the mass of the object from the SDF file.
+
+        Returns:
+            float: The mass of the object.
+        """
+        try:
+            tree = ET.parse(self.model_path)
+            root = tree.getroot()
+
+            # Locate the mass element for the given object name
+            for model in root.findall('model'):
+                if model.get('name') == self.name:
+                    inertial = model.find('link/inertial/mass')
+                    if inertial is not None and inertial.text:
+                        return float(inertial.text)
+            
+            print(f"Mass not found in SDF file for model '{self.name}'")
+        except Exception as e:
+            print(f"Failed to parse SDF file '{self.model_path}': {e}")
+
 
     def generate_pybullet_obstacle(self):
         p.setAdditionalSearchPath(self.search_path)
@@ -22,6 +49,7 @@ class Obstacle:
         if not obstacle_ids:
             raise ValueError(f"Failed to load obstacle from SDF file: {self.model_path}")
         final_obstacle_id = None
+
         for obstacle_id in obstacle_ids:
             _, name = p.getBodyInfo(obstacle_id)
 
@@ -29,6 +57,11 @@ class Obstacle:
             if name.decode('utf-8') == self.name:
                 p.changeDynamics(final_obstacle_id, -1, mass=self.mass)  # Make obstacle static
                 p.resetBasePositionAndOrientation(final_obstacle_id, [self.x, self.y, self.z], self.pose)
+                texture_path = os.path.join(self.search_path, "materials/textures/cinder_block_diffuse.png")
+                if os.path.exists(texture_path):
+                    texture_id = p.loadTexture(texture_path)
+                    p.changeVisualShape(final_obstacle_id, -1, textureUniqueId=texture_id)
+            
                 return final_obstacle_id
             
         raise Exception("No obstacle found")

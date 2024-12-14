@@ -139,7 +139,8 @@ if __name__ == "__main__":
         trajectory.add_waypoint(wp)
     
     # Interpolate waypoints
-    trajectory.linear_interpolation(num_interpolation_points=3)
+    # trajectory.linear_interpolation(num_interpolation_points=3)
+    trajectory.spline_interpolation(num_interpolation_points=3, spline_degree=5)
     
     # Visualize trajectory
     visualize_trajectory(urdf=urdf, trajectory=trajectory)
