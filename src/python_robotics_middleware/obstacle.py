@@ -3,7 +3,7 @@ import os
 import xml.etree.ElementTree as ET
 
 class Obstacle:
-    def __init__(self, model_path, name, color, search_path, position=[0, 0, 0], mass=0, pose=None):
+    def __init__(self, model_path, name, color, search_path, lateral_friction=1, restitution=0,position=[0, 0, 0], mass=0, pose=None):
         self.model_path = model_path  # Model path for the obstacle
         self.name = name              # Name of the obstacle
         self.x = position[0]          # X position of the obstacle
@@ -11,6 +11,8 @@ class Obstacle:
         self.z = position[2]          # Z position of the obstacle
         self.mass = mass              # Mass of the obstacle
         self.color = color            # Color of the obstacle
+        self.lateral_friction = lateral_friction
+        self.restitution = restitution
         self.search_path = search_path
         self.pose = pose if pose else ([self.x, self.y, self.z], p.getQuaternionFromEuler([0, 0, 0]))  # Default to no rotation
         self.mass = mass if mass is not None else self._get_mass_from_sdf()
@@ -55,7 +57,7 @@ class Obstacle:
 
             final_obstacle_id = obstacle_id
             if name.decode('utf-8') == self.name:
-                p.changeDynamics(final_obstacle_id, -1, mass=self.mass)  # Make obstacle static
+                p.changeDynamics(final_obstacle_id, -1, mass=self.mass, lateralFriction=self.lateral_friction, restitution = self.restitution)  # Make obstacle static
                 p.resetBasePositionAndOrientation(final_obstacle_id, [self.x, self.y, self.z], self.pose)
                 texture_path = os.path.join(self.search_path, "materials/textures/cinder_block_diffuse.png")
                 if os.path.exists(texture_path):
@@ -69,8 +71,9 @@ class Obstacle:
 
 class Sphere(Obstacle):
     def __init__(self, name, position, color, radius, mass, pose=None):
-        super().__init__(model_path=None, name=name, color=color, position=position, mass=mass, pose=pose)  # Sphere doesn't have a model path
+        super().__init__(model_path=None, search_path=None, name=name, color=color, position=position, mass=mass, pose=pose)  # Sphere doesn't have a model path
         self.radius = radius  # Radius of the sphere
+
 
     def generate_pybullet_obstacle(self):
         # Position and orientation (pose)
@@ -99,8 +102,10 @@ class Sphere(Obstacle):
 
 class Cube(Obstacle):
     def __init__(self, name, color, position, side_length, mass, pose=None):
-        super().__init__(model_path=None, name=name, color=color, position=position, mass=mass, pose=pose)  # Cube doesn't have a model path
+        super().__init__(model_path=None, search_path=None, name=name, color=color, position=position, mass=mass, pose=pose)  # Cube doesn't have a model path
         self.side_length = side_length  # Side length of the cube
+        
+        
 
     def generate_pybullet_obstacle(self):
         # Position and orientation (pose)

@@ -24,7 +24,7 @@ def visualize_collision_with_sphere(data, urdf, visualize=True, delay=True):
         p.setRealTimeSimulation(False)
         p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.81/1000)
+        p.setGravity(0, 0, -9.81)
         p.setTimeStep(1/240.0)
         
         # Set up camera for better visualization
@@ -79,7 +79,7 @@ def visualize_collision_with_cube(data, urdf, visualize=True, delay=True):
         p.setRealTimeSimulation(False)
         p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.81/1000)
+        p.setGravity(0, 0, -9.81)
         p.setTimeStep(1/240.0)
 
         # Set up camera for better visualization
@@ -96,7 +96,7 @@ def visualize_collision_with_cube(data, urdf, visualize=True, delay=True):
         # Load robot model
         robot_id = p.loadURDF(urdf, basePosition=[0, 0, 0], useFixedBase=True)
         
-        cube = Cube(name="cube_1",color=[1,1,0,0.5], position=[0.5,1.0,0.2],mass=1, side_length=0.2)
+        cube = Cube(name="cube_1",color=[1,1,0,0.5], position=[0.5,1.0,0.2],mass=100, side_length=0.2)
 
         cube_id = cube.generate_pybullet_obstacle()
 
@@ -140,8 +140,9 @@ def visualize_collision_with_multiple_obstacles(data, urdf, obstacles, visualize
         p.setRealTimeSimulation(False)
         p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.81 / 1000)
-        p.setTimeStep(1 / 240.0)
+        p.setGravity(0, 0, -9.81)
+
+        p.setTimeStep(1/240)
 
         # Set up camera for better visualization
         yaw = 90
@@ -195,7 +196,7 @@ def visualize_collision_with_loaded_obstacle(data, urdf, obstacle, visualize=Tru
         p.setRealTimeSimulation(False)
         p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0, 0, -9.81/1000)
+        p.setGravity(0, 0, -9.81)
         p.setTimeStep(1/240.0)
         # Set up camera for better visualization
         yaw = 90
@@ -270,6 +271,6 @@ if __name__ == "__main__":
 
 
     # visualize_collision_with_sphere(data=data, urdf=urdf)
-    # visualize_collision_with_cube(data=data, urdf=urdf)
+    visualize_collision_with_cube(data=data, urdf=urdf)
     # visualize_collision_with_loaded_obstacle(data=data, urdf=urdf, obstacle=obstacle)
-    visualize_collision_with_multiple_obstacles(data=data, urdf=urdf, obstacles=cinder_blocks)
+    # visualize_collision_with_multiple_obstacles(data=data, urdf=urdf, obstacles=cinder_blocks)
