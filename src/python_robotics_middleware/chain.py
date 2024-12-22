@@ -67,6 +67,8 @@ class Chain:
     Robot model that may be constructed from different descriptions via their respective parsers.
     Fundamentally, a robot is modelled as a chain (not necessarily serial) of frames, with each frame
     having a physical link and a number of child frames each connected via some joint.
+
+    Author: UM-ARM Lab
     """
 
     def __init__(self, root_frame, dtype=torch.float32, device="cpu"):

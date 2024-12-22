@@ -5,6 +5,12 @@ import python_robotics_middleware as pk
 
 
 def test_transform():
+    """
+    Test quaternion-to-matrix and matrix-to-quaternion transformations to ensure accuracy.
+    Validates batch processing and checks for consistency in identity quaternion generation.
+
+    Author: UM-ARM Lab
+    """
     print("Test matrix_to_quat and quat_to_matrix transformations can be done without messing the values up")
     N = 20
     mats = tf.random_rotations(N, dtype=torch.float64, device="cpu", requires_grad=True)
@@ -24,6 +30,11 @@ def test_transform():
 
 
 def test_translations():
+    """
+    Test translation transformations to ensure proper point translations.
+    Includes both individual and batch translation tests.
+    Author: UM-ARM Lab
+    """
     print("Test translation function implementation")
     t = tf.Translate(1, 2, 3)
     points = torch.tensor([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.5, 0.5, 0.0]]).view(
@@ -49,6 +60,11 @@ def test_translations():
 
 
 def test_rotate_axis_angle():
+    """
+    Test 90-degree rotation along the Z-axis using axis-angle representation.
+    Validates transformations for both points and normals.
+    Author: UM-ARM Lab
+    """
     print("Test rotation by 90 degrees along the Z-axis")
     t = tf.Transform3d().rotate_axis_angle(90.0, axis="Z")
     points = torch.tensor([[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 1.0, 1.0]]).view(
@@ -71,6 +87,12 @@ def test_rotate_axis_angle():
 
 
 def test_rotate():
+    """
+    Test general rotation transformations using SO(3) exponential maps.
+    Validates transformation accuracy for points and normals.
+
+    Author: UM-ARM Lab
+    """
     print("Test rotation implementation.")
     R = tf.so3_exp_map(torch.randn((1, 3)))
     t = tf.Transform3d().rotate(R)
@@ -93,6 +115,12 @@ def test_rotate():
 
 
 def test_transform_combined():
+    """
+    Test combination of rotation and translation transformations.
+    Ensures correctness for transforming both points and normals.
+    
+    Author: UM-ARM Lab
+    """
     print("Test combination of rotations and translation")
     R = tf.so3_exp_map(torch.randn((1, 3)))
     tr = torch.randn((1, 3))
@@ -109,6 +137,12 @@ def test_transform_combined():
 
 
 def test_euler():
+    """
+    Test transformation matrices derived from Euler angles.
+    Validates expected transformation matrices against implementation.
+
+    Author: UM-ARM Lab
+    """
     print("Test Euler angle transformation")
     euler_angles = torch.tensor([1, 0, 0.5])
     t = tf.Transform3d(rot=euler_angles)
@@ -124,6 +158,13 @@ def test_euler():
 
 
 def test_quaternions():
+    """
+    Test quaternion-related operations such as normalization, 
+    conversion, and angular distance calculation.
+    
+    Author: UM-ARM Lab
+    """
+
     print("Test Transformations work on Random Seeding of Quaternions")
     import pytorch_seed
     pytorch_seed.seed(0)
@@ -161,10 +202,17 @@ def test_quaternions():
 
 
 def test_compose():
+    """
+    Test composition of multiple transformations, including rotation and translation.
+    Verifies resulting transformation matrices and point transformations.
+
+    Author: UM-ARM Lab
+    """
+
     print("Test Compose")
     import torch
     theta = 1.5707
-    a2b = tf.Transform3d(pos=[0.1, 0, 0])  # joint.offset
+    a2b = tf.Transform3d(pos=[0.1, 0, 0])  # joint.offseet
     b2j = tf.Transform3d(rot=tf.axis_angle_to_quaternion(theta * torch.tensor([0.0, 0, 1])))  # joint.axis
     j2c = tf.Transform3d(pos=[0.1, 0, 0])  # link.offset ?
     a2c = a2b.compose(b2j, j2c)
@@ -175,6 +223,12 @@ def test_compose():
 
 
 def test_quaternion_slerp():
+    """
+    Test spherical linear interpolation (SLERP) between quaternions.
+    Validates interpolated quaternion distances against expected values.
+
+    Author: UM-ARM Lab
+    """
     print("Test Quaternion Slerp")
     q = tf.random_quaternions(20)
     q1 = q[:10]

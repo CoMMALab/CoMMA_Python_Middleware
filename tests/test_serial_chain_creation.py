@@ -9,6 +9,10 @@ TEST_DIR = os.path.dirname(__file__)
 
 
 def test_extract_serial_chain_from_tree():
+    """
+    Test building and printing serial chains from a URDF
+    Author: UM-ARM Lab 
+    """
     urdf = "widowx/wx250s.urdf"
     full_urdf = os.path.join(TEST_DIR, urdf)
     chain = pk.build_chain_from_urdf(open(full_urdf, mode="rb").read())

@@ -17,6 +17,7 @@ def visualize_collision_with_sphere(data, urdf, visualize=True, delay=True):
         n: Number of poses to visualize.
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -72,6 +73,7 @@ def visualize_collision_with_cube(data, urdf, visualize=True, delay=True):
         n: Number of poses to visualize.
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -133,6 +135,7 @@ def visualize_collision_with_multiple_obstacles(data, urdf, obstacles, visualize
                    - mass: Mass of the obstacle
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -189,6 +192,7 @@ def visualize_collision_with_loaded_obstacle(data, urdf, obstacle, visualize=Tru
         n: Number of poses to visualize.
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -237,7 +241,7 @@ if __name__ == "__main__":
     search_path = pybullet_data.getDataPath()
 
     # Define URDF and dataset
-    urdf = "../franka/fp3_franka_hand.urdf"
+    urdf = "franka/fp3_franka_hand.urdf"
     data = [
         {'joint_angles': [0.0, -0.5, 0.5, -1.0, 0.0, 0.8, 0.0]},  # Example pose 1
         {'joint_angles': [0.2, -0.3, 0.7, -0.9, 0.1, 0.5, 0.0]},  # Example pose 2
@@ -271,6 +275,6 @@ if __name__ == "__main__":
 
 
     # visualize_collision_with_sphere(data=data, urdf=urdf)
-    visualize_collision_with_cube(data=data, urdf=urdf)
+    # visualize_collision_with_cube(data=data, urdf=urdf)
     # visualize_collision_with_loaded_obstacle(data=data, urdf=urdf, obstacle=obstacle)
-    # visualize_collision_with_multiple_obstacles(data=data, urdf=urdf, obstacles=cinder_blocks)
+    visualize_collision_with_multiple_obstacles(data=data, urdf=urdf, obstacles=cinder_blocks)

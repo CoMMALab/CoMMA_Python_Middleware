@@ -15,6 +15,7 @@ def visualize_with_waypoints(data, urdf, waypoints, visualize=True):
         waypoints: List of Waypoint objects.
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar    
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -74,7 +75,7 @@ if __name__ == "__main__":
     search_path = pybullet_data.getDataPath()
 
     # Define URDF and dataset
-    urdf = "../franka/fp3_franka_hand.urdf"
+    urdf = "franka/fp3_franka_hand.urdf"
     data = [
         {'joint_angles': [0.0, -0.5, 0.5, -1.0, 0.0, 0.8, 0.0]},  # Example pose 1
         {'joint_angles': [0.2, -0.3, 0.7, -0.9, 0.1, 0.5, 0.0]},  # Example pose 2

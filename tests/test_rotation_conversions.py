@@ -9,6 +9,12 @@ from python_robotics_middleware.transforms.rotation_conversions import axis_and_
 
 
 def test_axis_angle_to_matrix_perf():
+    """
+    Test and compare performance of two implementations of axis-angle to matrix conversion.
+    Uses batch and non-batched inputs to evaluate speed and correctness.
+    
+    Author: UM-ARM Lab
+    """
     print("Test two implementations of axis_angle_to_matrix from UM-ARM lab.")
     number = 100
     N = 1_000
@@ -26,6 +32,12 @@ def test_axis_angle_to_matrix_perf():
 
 
 def test_quaternion_not_close():
+    """
+    Validate that the quaternion comparison function correctly identifies
+    quaternions that are far apart in space.
+
+    Author: UM-ARM Lab
+    """
     # ensure it returns false for quaternions that are far apart
     q1 = torch.tensor([1., 0, 0, 0])
     q2 = torch.tensor([0., 1, 0, 0])
@@ -33,6 +45,12 @@ def test_quaternion_not_close():
 
 
 def test_quaternion_from_euler():
+    """
+    Test the conversion of Euler angles to quaternions.
+    Verifies correctness for both single and batched transformations.
+
+    Author: UM-ARM Lab
+    """
     q = quaternion_from_euler(torch.tensor([0., 0, 0]))
     assert quaternion_close(q, torch.tensor([1., 0, 0, 0]))
     root2_over_2 = np.sqrt(2) / 2
@@ -57,6 +75,12 @@ def test_quaternion_from_euler():
 
 
 def test_pos_rot_conversion():
+    """
+    Test conversion between transformation matrices and their position and rotation components.
+    Ensures accuracy of forward and reverse transformations.
+
+    Author: UM-ARM Lab
+    """
     N = 1000
     R = random_rotations(N)
     t = torch.randn((N, 3), dtype=R.dtype, device=R.device)

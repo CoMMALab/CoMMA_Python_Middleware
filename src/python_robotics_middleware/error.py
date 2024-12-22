@@ -23,6 +23,8 @@ def are_tuples_close(tuple1, tuple2, tolerance=1e-3):
 
     Returns:
         True if all elements are within the tolerance, False otherwise.
+
+    Author: Sai Coumar
     """
     if type(tuple1) != type(tuple2):
         return False

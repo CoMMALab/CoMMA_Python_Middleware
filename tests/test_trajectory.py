@@ -19,6 +19,7 @@ def generate_dynamic_waypoints(num_points=5, base_height=0.5, amplitude=0.2, fre
     
     Returns:
         list: A list of Waypoint objects.
+    Author: Sai Coumar
     """
     waypoints = []
     
@@ -51,6 +52,7 @@ def visualize_trajectory(urdf, trajectory, visualize=True, delay=False):
         trajectory: Trajectory object containing waypoints.
         visualize: Whether to visualize the robot in PyBullet.
         delay: Whether to add a delay between visualizing poses.
+    Author: Sai Coumar
     """
     if visualize:
         # Initialize PyBullet in GUI mode
@@ -115,7 +117,7 @@ if __name__ == "__main__":
     search_path = pybullet_data.getDataPath()
     
     # Define URDF
-    urdf = "../franka/fp3_franka_hand.urdf"
+    urdf = "franka/fp3_franka_hand.urdf"
     
     # Create trajectory
     trajectory = Trajectory()
