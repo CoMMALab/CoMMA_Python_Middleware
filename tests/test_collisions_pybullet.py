@@ -7,7 +7,7 @@ from python_robotics_middleware import Obstacle, Sphere, Cube, are_tuples_close
 
 
 
-def visualize_collision_with_sphere(data, urdf, visualize=True, delay=True):
+def visualize_collision_with_sphere(data, urdf, visualize=True):
     """
     Visualize pre-computed joint configurations in PyBullet with collision detection.
     
